@@ -16,6 +16,10 @@ export function SidebarLink({ icon, name, src }: ISiderbarLink) {
   return (
     <Link
       href={src}
+      style={{
+        background: asPath.endsWith(src) ? '#7F3DFF' : '',
+        color: asPath.endsWith(src) ? 'white' : '',
+      }}
       className={`flex text-text_sidebar items-center rounded-md py-2 px-2
 		gap-2 hover:bg-[#454F5B] ${active}`}
     >
