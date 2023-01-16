@@ -1,4 +1,4 @@
-import { InvoicesTable } from '@/components/InvoicesTable';
+import { InvoicesTable } from '@/components/invoices/InvoicesTable';
 import { Layout } from '@/components/Layout';
 import Head from 'next/head';
 

@@ -1,5 +1,8 @@
 import { MagnifyingGlass } from 'phosphor-react';
 
+import { BellIcon, UserIcon } from '@heroicons/react/24/solid';
+import { Icon } from '@tremor/react';
+
 export function Header() {
   return (
     <header
@@ -20,7 +23,10 @@ export function Header() {
         </div>
       </div>
 
-      <div></div>
+      <div className="flex gap-2 items-center justify-center">
+        <Icon icon={BellIcon} color="slate" />
+        <Icon icon={UserIcon} color="slate" />
+      </div>
     </header>
   );
 }

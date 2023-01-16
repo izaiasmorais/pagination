@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Header } from './Header';
-import { Sidebar } from './Sidebar';
+import { Sidebar } from './sidebar/Sidebar';
 
 interface ILayout {
   children?: ReactNode;
