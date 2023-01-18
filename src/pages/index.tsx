@@ -1,30 +1,56 @@
-import { Layout } from '@/components/Layout';
-import { MenuTable } from '@/components/dashboard/MenuTable';
-import { Subscriptions } from '@/components/dashboard/Subscriptions';
-import { Summmary } from '@/components/dashboard/Summary';
-import { ColGrid } from '@tremor/react';
-import Head from 'next/head';
+import { Layout } from "@/components/Layout";
+import { api } from "@/services/axiosClient";
+import { Card, Text } from "@tremor/react";
+import Head from "next/head";
+import Image from "next/image";
+import { useQuery } from "react-query";
+
+interface ICharacter {
+	id: number;
+	image: string;
+	name: string;
+}
+
+interface ResponseData {
+	info: {
+		count: number;
+		next: string;
+		pages: number;
+		prev: number | null;
+	};
+	results: ICharacter[];
+}
 
 export default function Home() {
-  return (
-    <>
-      <Head>
-        <title>EZDASH</title>
-      </Head>
-      <main className="w-full min-h-screen">
-        <Layout>
-          <Summmary />
+	const { data, error, isFetching } = useQuery("getCharacters", async () => {
+		const response = await api.get<ResponseData>("api/character");
 
-          <div className="grid grid-cols-3 p-4 gap-4">
-            <div className="col-start-1 col-end-3">
-              <MenuTable />
-            </div>
-            <div className="ml-3">
-              <Subscriptions />
-            </div>
-          </div>
-        </Layout>
-      </main>
-    </>
-  );
+		return response?.data;
+	});
+
+	console.log(data?.results);
+
+	return (
+		<>
+			<Head>
+				<title>API Playground</title>
+			</Head>
+			<Layout>
+				<div className="flex flex-wrap w-full">
+					{data?.results.map((item, index) => (
+						<div key={index} className="bg-white p-4 max-w-[200px]">
+							<Image
+								alt={item.name}
+								src={item.image}
+								width={168}
+								height={168}
+								className=""
+							/>
+							<p>{item.name}</p>
+						</div>
+					))}
+				</div>
+			</Layout>
+		</>
+	);
 }
