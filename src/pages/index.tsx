@@ -1,10 +1,10 @@
 import Head from "next/head";
-import Image from "next/image";
 import { api } from "@/services/axiosClient";
 import { ResponseData } from "@/@types/types";
 import { useQuery, useQueryClient } from "react-query";
 import { useState } from "react";
 import { Pagination } from "@mui/material";
+import { CharactersList } from "@/components/CharactersList";
 
 export default function Home() {
 	const [page, setPage] = useState(1);
@@ -29,8 +29,6 @@ export default function Home() {
 		value: number
 	) => {
 		setPage(value);
-		queryClient.fetchQuery("get-characters");
-		console.log(page);
 	};
 
 	return (
@@ -40,35 +38,15 @@ export default function Home() {
 			</Head>
 
 			<div className="flex flex-wrap w-full p-4">
-				<div
-					className="mx-auto max-w-[1670px] w-full flex flex-wrap my-[40px] gap-4
-					"
-				>
-					{data?.results.map((item, index) => (
-						<div
-							key={index}
-							className="bg-[#F1F5F9] w-[320px] h-[168px]
-						flex rounded-lg overflow-hidden"
-						>
-							<Image
-								alt={item.name}
-								src={item.image}
-								width={168}
-								height={168}
-								className=""
-							/>
-							<div className="p-2">
-								<p className="break-all text-xl font-semibold">{item.name}</p>
-								<p>Gender: {item.gender}</p>
-								<p>Status: {item.status}</p>
-								<p>Specie: {item.species}</p>
-							</div>
-						</div>
-					))}
-				</div>
+				<CharactersList data={data} />
 
 				<div className="w-full h-10 flex items-center justify-center">
-					<Pagination count={20} shape="rounded" onChange={handleChangePage} />
+					<Pagination
+						count={20}
+						shape="rounded"
+						onChange={handleChangePage}
+						className="text-xl"
+					/>
 				</div>
 			</div>
 		</>
