@@ -4,7 +4,6 @@ import { QueryClientProvider } from "react-query";
 import NextNProgress from "nextjs-progressbar";
 import Head from "next/head";
 
-import "@tremor/react/dist/esm/tremor.css";
 import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
