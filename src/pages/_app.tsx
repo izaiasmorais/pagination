@@ -1,6 +1,7 @@
 import type { AppProps } from "next/app";
 import { client } from "@/services/QueryClient";
 import { QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import NextNProgress from "nextjs-progressbar";
 import Head from "next/head";
 
@@ -16,6 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
 			<QueryClientProvider client={client}>
 				<Component {...pageProps} />
 				<NextNProgress color="#7F3DFF" />
+				<ReactQueryDevtools initialIsOpen={false} />
 			</QueryClientProvider>
 		</>
 	);

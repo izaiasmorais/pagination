@@ -1,16 +1,37 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Pagination } from "antd";
 import { api } from "@/services/axiosClient";
 import { ResponseData } from "@/@types/types";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
+import { useState } from "react";
+import { Pagination } from "@mui/material";
 
 export default function Home() {
-	const { data, error, isFetching } = useQuery("getCharacters", async () => {
-		const response = await api.get<ResponseData>("api/character/?page=19");
+	const [page, setPage] = useState(1);
+	const queryClient = useQueryClient();
 
-		return response?.data;
-	});
+	const { data, error, isFetching } = useQuery(
+		["get-characters", page],
+		async () => {
+			const response = await api.get<ResponseData>(
+				`api/character/?page=${page}`
+			);
+
+			return response?.data;
+		},
+		{
+			keepPreviousData: true,
+		}
+	);
+
+	const handleChangePage = (
+		event: React.ChangeEvent<unknown>,
+		value: number
+	) => {
+		setPage(value);
+		queryClient.fetchQuery("get-characters");
+		console.log(page);
+	};
 
 	return (
 		<>
@@ -18,10 +39,10 @@ export default function Home() {
 				<title>Rick and Morty API</title>
 			</Head>
 
-			<div className="flex flex-wrap w-full">
+			<div className="flex flex-wrap w-full p-4">
 				<div
-					className="mx-auto max-w-[1670px] w-full flex
-				flex-wrap h-[800px] mt-[40px] gap-4"
+					className="mx-auto max-w-[1670px] w-full flex flex-wrap my-[40px] gap-4
+					"
 				>
 					{data?.results.map((item, index) => (
 						<div
@@ -47,7 +68,7 @@ export default function Home() {
 				</div>
 
 				<div className="w-full h-10 flex items-center justify-center">
-					<Pagination total={data?.info.pages} />
+					<Pagination count={20} shape="rounded" onChange={handleChangePage} />
 				</div>
 			</div>
 		</>
