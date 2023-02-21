@@ -1,4 +1,3 @@
-import { usePagination } from "../store/usePagination";
 import { Button } from "./Button";
 import { CaretRight, CaretLeft } from "phosphor-react";
 
@@ -6,15 +5,15 @@ interface PaginationProps {
 	totalItems: number;
 	itemsPerPage: number;
 	currentPage: number;
+	onChangePage: (page: number) => void;
 }
 
 export function Pagination({
 	totalItems,
 	itemsPerPage,
 	currentPage,
+	onChangePage,
 }: PaginationProps) {
-	const { onChangePage, page } = usePagination();
-
 	const totalPages = Math.ceil(totalItems / itemsPerPage);
 
 	let startPage, endPage;
@@ -50,8 +49,8 @@ export function Pagination({
 	return (
 		<div className="flex w-full justify-between">
 			<div className="flex gap-2">
-				{page >= 1 && (
-					<Button onClick={() => handleClick(page - 1)}>
+				{currentPage >= 1 && (
+					<Button onClick={() => handleClick(currentPage - 1)}>
 						<CaretLeft size={20} />
 					</Button>
 				)}
@@ -64,10 +63,8 @@ export function Pagination({
 					<Button
 						key={pageNumber}
 						onClick={() => handleClick(pageNumber)}
-						disabled={pageNumber === page}
-						className="bg-slate-200 hover:bg-slate-300 px-3 py-1 rounded
-						cursor-pointer text-lg font-medium disabled:bg-purple-500
-						disabled:hover:bg-purple-600 disabled:text-white"
+						disabled={pageNumber === currentPage}
+						extraStyle="disabled:bg-purple-500 disabled:hover:bg-purple-600 disabled:text-white"
 					>
 						{pageNumber}
 					</Button>
@@ -80,14 +77,18 @@ export function Pagination({
 				)}
 
 				{currentPage <= totalPages && (
-					<Button onClick={() => handleClick(page + 1)}>
+					<Button
+						onClick={() => handleClick(currentPage + 1)}
+						disabled={currentPage === totalItems ? true : false}
+						extraStyle="disabled:bg-red-500"
+					>
 						<CaretRight size={20} />
 					</Button>
 				)}
 			</div>
 
 			<div>
-				Página: {page} / {totalPages}
+				Página: {currentPage} / {totalPages}
 			</div>
 		</div>
 	);

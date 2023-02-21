@@ -4,19 +4,18 @@ import "./styles/global.css";
 import { usePagination } from "./store/usePagination";
 
 function App() {
-	const { page } = usePagination();
+	const { page, itemPerPage, onChangePage } = usePagination();
 
 	const itemsPerPage = 5;
-
 	const startIndex = (page - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
 	const displayedItems = items.slice(startIndex, endIndex);
 
 	return (
-		<div className="w-full">
+		<div className="w-full text-xl">
 			<div
 				className="w-full max-w-[1000px] mx-auto mt-[200px] bg-slate-100
-			p-6 rounded-lg text-2xl"
+			p-6 rounded-lg"
 			>
 				<h1 className="mb-6">Pagination System</h1>
 
@@ -34,9 +33,10 @@ function App() {
 
 				<div className="flex justify-between">
 					<Pagination
-						currentPage={page}
-						itemsPerPage={5}
+						itemsPerPage={itemPerPage}
 						totalItems={items.length}
+						currentPage={page}
+						onChangePage={onChangePage}
 					/>
 				</div>
 			</div>
