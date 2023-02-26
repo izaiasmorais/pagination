@@ -4,9 +4,8 @@ import "./styles/global.css";
 import { usePagination } from "./store/usePagination";
 
 function App() {
-	const { page, itemPerPage, onChangePage } = usePagination();
+	const { page, itemsPerPage, onChangePage } = usePagination();
 
-	const itemsPerPage = 5;
 	const startIndex = (page - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
 	const displayedItems = items.slice(startIndex, endIndex);
@@ -33,8 +32,8 @@ function App() {
 
 				<div className="flex justify-between">
 					<Pagination
-						itemsPerPage={itemPerPage}
 						totalItems={items.length}
+						itemsPerPage={itemsPerPage}
 						currentPage={page}
 						onChangePage={onChangePage}
 					/>

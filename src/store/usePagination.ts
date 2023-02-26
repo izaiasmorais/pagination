@@ -2,14 +2,14 @@ import { create } from "zustand";
 
 interface PaginationStore {
 	page: number;
-	itemPerPage: number;
+	itemsPerPage: number;
 	onChangePage: (page: number) => void;
 	onChangeItemsPerPage: (page: number) => void;
 }
 
 export const usePagination = create<PaginationStore>((set) => ({
 	page: 1,
-	itemPerPage: 10,
+	itemsPerPage: 5,
 	onChangePage(page: number) {
 		set(() => ({ page }));
 	},
